@@ -34,6 +34,8 @@ function testSourceTransform(testCase) ::
   if testCase.tokens ::
     const tokens = res.ast.tokens
       .map @ token => token.type.label
+      .filter @ Boolean
+
     assert.deepEqual @ tokens.pop(), 'eof'
 
     if ('tokens' === testCase.debug) ::

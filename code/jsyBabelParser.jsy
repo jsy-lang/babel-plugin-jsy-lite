@@ -1,0 +1,26 @@
+import jsy_transpile_snapshot from 'jsy-transpile'
+
+let jsy_transpile = jsy_transpile_snapshot
+try { jsy_transpile = require('jsy-transpile') } catch (err) {}
+
+const { SourceMapGenerator } = require('source-map')
+
+
+export default jsyTranspileParser
+export function jsyTranspileParser(jsy_source, parserOpts, filename) ::
+  if ! filename :: filename = 'unknown'
+
+  const sourcemap = new SourceMapGenerator()
+
+  const js_vanilla = jsy_transpile @ jsy_source, @{}
+    addSourceMapping(arg) ::
+      arg.source = filename
+      sourcemap.addMapping(arg)
+
+    inlineSourceMap() ::
+      return sourcemap.toString()
+
+
+  return parserOpts.parser.parse @
+    js_vanilla, parserOpts
+

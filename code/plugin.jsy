@@ -1,48 +1,43 @@
-const default_offsidePluginOpts = @{}
-  check_blocks: /\/node_modules\/|\\node_modules\\/
+import jsyTranspileParser from './jsyBabelParser.jsy'
+export {jsyTranspileParser} from './jsyBabelParser.jsy'
 
 export default babel_plugin_jsy_lite
 export function babel_plugin_jsy_lite(babel) ::
-  const plugin = @{}
+  return @{}
     name: 'babel-plugin-jsy-lite'
 
-    pre(state) ::
-      this.opts = Object.assign @ {}, default_offsidePluginOpts, this.opts
+    manipulateOptions(opts, parserOpts, file) ::
+      file.opts.parserOpts = parserOpts
 
-      let check_blocks = this.opts.check_blocks
-      if check_blocks instanceof Function ::
-        check_blocks = check_blocks @ state.opts.filename
-      else if check_blocks instanceof RegExp ::
-        check_blocks = ! check_blocks.test @ state.opts.filename
-      else if 'string' === typeof check_blocks ::
-        check_blocks = ! new RegExp(check_blocks).test @ state.opts.filename
+      parserOpts.parser = (source, parserOpts) =>
+        jsyTranspileParser @ source, parserOpts, file.opts.filenameRelative
 
-      this.opts.check_blocks = check_blocks = !! check_blocks
-
-    manipulateOptions(opts, parserOpts) ::
       parserOpts.plugins.push @
         'asyncGenerators'
         'classProperties'
         'decorators'
         'functionBind'
 
+    pre(state, ... args) ::
+      const check_blocks = asCheckBlocksFunction @ this.opts.check_blocks
+      this.opts.do_check_blocks = check_blocks @ state.opts.filename
+
     visitor: @{}
       Program(path) ::
-        if this.opts.check_blocks :: ensureConsistentBlockIndent(path, path.node.body)
+        if this.opts.do_check_blocks ::
+          ensureConsistentBlockIndent(path, path.node.body)
 
       BlockStatement(path) ::
-        if this.opts.check_blocks :: ensureConsistentBlockIndent(path, path.node.body)
+        if this.opts.do_check_blocks ::
+          ensureConsistentBlockIndent(path, path.node.body)
 
       SwitchStatement(path) ::
-        if this.opts.check_blocks :: ensureConsistentBlockIndent(path, path.node.cases)
+        if this.opts.do_check_blocks ::
+          ensureConsistentBlockIndent(path, path.node.cases)
 
       SwitchCase(path) ::
-        if this.opts.check_blocks :: ensureConsistentBlockIndent(path, path.node.consequent)
-
-  return new Proxy @ plugin, @{}
-    get(target, prop, receiver) ::
-      console.log("GET:", prop)
-      return Reflect.get(...arguments)
+        if this.opts.do_check_blocks ::
+          ensureConsistentBlockIndent(path, path.node.consequent)
 
 
 export function ensureConsistentBlockIndent(path, body) ::
@@ -70,4 +65,19 @@ export function ensureConsistentBlockIndent(path, body) ::
         + `    (From 'check_blocks' enforcement option of babel-plugin-jsy-lite)`
 
     prev_line = loc.end.line
+
+
+const default_check_blocks = /\/node_modules\/|\\node_modules\\/ ;
+function asCheckBlocksFunction(check_blocks) ::
+  if 'function' === typeof check_blocks ::
+    return check_blocks
+
+  const re = null == check_blocks ? default_check_blocks
+    : 'string' === typeof check_blocks ? new RegExp(check_blocks)
+    : check_blocks instanceof RegExp ? check_blocks
+    : null
+
+  if re ::
+    return filename => ! re.test(filename)
+  else return () => false
 

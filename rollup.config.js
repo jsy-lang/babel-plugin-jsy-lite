@@ -1,6 +1,10 @@
+import rpi_resolve from 'rollup-plugin-node-resolve'
 import rpi_jsy from 'rollup-plugin-jsy-lite'
 
-const plugins = [rpi_jsy()]
+const plugins = [
+  rpi_resolve({modulesOnly: true}),
+  rpi_jsy(),
+]
 
 
 export default [

@@ -6,12 +6,6 @@ describe @ 'JSY Smoke Tests', @=> ::
 
 function * iterWhileSyntaxSmokeTest() ::
   // while (expr) body variations
-  yield @{} expectSyntaxError: true
-    title: 'inconsisent indented while statement with expression'
-    source: @[]
-      'while expr'
-      '  firstStatement'
-      '  secondStatement'
 
   yield @{} expectValid: true
     title: 'vanilla while statement'

@@ -4,7 +4,7 @@ const babel_opt = @{}
   babelrc: false
   highlightCode: false
   plugins: @[]
-    'babel-plugin-jsy-lite'
+    @[] 'babel-plugin-jsy-lite', @{} check_blocks: 'crazy', parser: 'test/node_modules/babylon'
     'syntax-async-generators'
     'syntax-class-properties'
     'syntax-dynamic-import'

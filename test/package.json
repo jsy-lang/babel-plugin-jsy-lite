@@ -10,9 +10,6 @@
     "jsy-node": "^1.2.1",
     "mocha": "^5.2.0"
   },
-  "babel": {
-    "plugins": "babel-plugin-jsy-lite"
-  },
   "scripts": {
     "pretest": "test -d ./node_modules || npm -s install",
     "test": "npm -s run test:one",
