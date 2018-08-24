@@ -1,0 +1,42 @@
+{
+  "name": "babel-plugin-jsy-lite",
+  "version": "0.0.1",
+  "description": "Babel offside (indention) Javascript syntax extension",
+  "author": "Shane Holloway <shane.holloway@ieee.org>",
+  "license": "BSD-2-Clause",
+  "keywords": [
+    "babel",
+    "syntax",
+    "offside",
+    "python",
+    "indention",
+    "indent"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsy-lang/babel-plugin-jsy-lite.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jsy-lang/babel-plugin-jsy-lite/issues"
+  },
+  "homepage": "https://github.com/jsy-lang/babel-plugin-jsy-lite#readme",
+  "files": [ "cjs/", "esm/", "umd/" ],
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jsy-transpile": "^0.1.7",
+    "rollup": "^0.64.1",
+    "rollup-plugin-jsy-lite": "^1.1.6"
+  },
+  "scripts": {
+    "clean": "rm -rf cjs/ umd/ esm/",
+    "build": "rollup --config",
+    "build:stable": "rollup --config rollup.stable.js",
+    "watch": "npm -s run build -- --watch",
+    "pretest": "npm -s run build",
+    "test": "cd test; npm -s run test",
+    "test:one": "cd test; npm -s run test:one",
+    "test:watch": "cd test; npm -s run test:watch"
+  }
+}

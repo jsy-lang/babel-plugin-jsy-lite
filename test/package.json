@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-jsy-lite": "file:..",
+    "babel-plugin-syntax-async-generators": "^6.13.0",
+    "babel-plugin-syntax-class-properties": "^6.13.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "jsy-node": "^1.2.1",
+    "mocha": "^5.2.0"
+  },
+  "babel": {
+    "plugins": "babel-plugin-jsy-lite"
+  },
+  "scripts": {
+    "pretest": "test -d ./node_modules || npm -s install",
+    "test": "npm -s run test:one",
+    "test:one": "mocha --require jsy-node/all ./unittest/",
+    "test:min": "mocha --reporter=min --require jsy-node/all ./unittest/"
+  }
+}
