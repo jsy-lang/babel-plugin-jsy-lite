@@ -1,8 +1,9 @@
 require('source-map-support').install()
 
 const {genSyntaxTestCases} = require('./_xform_syntax_variations')
-describe @ 'Babel Extension Support', @=> ::
-  genSyntaxTestCases @ it, iterBabelSupport()
+describe @ 'Babel 7', @=> ::
+  describe @ 'Extension Support', @=> ::
+    genSyntaxTestCases @ it, iterBabelSupport()
 
 
 function * iterBabelSupport() ::
@@ -18,9 +19,9 @@ function * iterBabelSupport() ::
       'name', 'function', '*', 'name', '(', ')', '{',
         'while', '(', 'num', ')', '{',
           'const', 'name', '=', 'name', 'name', '(', ')',
-          'yield', 'name',
+          'name', 'name',
         '}',
-      '}', 'eof'
+      '}'
 
   yield @{} expectValid: true
     title: 'class properties Babel extension'

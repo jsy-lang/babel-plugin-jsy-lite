@@ -2,6 +2,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
+    "acorn-node": "^1.5.2",
     "babel-core": "^6.26.3",
     "babel-plugin-jsy-lite": "file:..",
     "babel-plugin-syntax-async-generators": "^6.13.0",
@@ -11,9 +12,9 @@
     "mocha": "^5.2.0"
   },
   "scripts": {
-    "pretest": "test -d ./node_modules || npm -s install",
-    "test": "npm -s run test:one",
-    "test:one": "mocha --require jsy-node/all ./unittest/",
+    "test": "npm -s run test-babel6",
+    "pretest-babel6": "test -d ./node_modules || npm -s install",
+    "test-babel6": "mocha --require jsy-node/all ./unittest/",
     "test:min": "mocha --reporter=min --require jsy-node/all ./unittest/"
   }
 }

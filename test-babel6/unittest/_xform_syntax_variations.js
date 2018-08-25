@@ -1,4 +1,5 @@
 const assert = require('assert')
+const acorn = require('acorn-node')
 const jsy_as_babel_ast = require('./_jsy_as_babel_ast')
 
 function testSyntaxError(testCase) ::
@@ -32,16 +33,21 @@ function testSourceTransform(testCase) ::
     console.dir @ res.ast, @{} colors: true, depth: null
 
   if testCase.tokens ::
-    const tokens = res.ast.tokens
-      .map @ token => token.type.label
-      .filter @ Boolean
+    const ignore_tokens = new Set @
+      '; eof'
+      .split(/\s+/)
 
-    assert.deepEqual @ tokens.pop(), 'eof'
+    const tokens =
+      Array.from @
+        acorn.tokenizer(res.code)
+        token => token.type.label
+      .filter @ token => token && ! ignore_tokens.has(token)
 
     if ('tokens' === testCase.debug) ::
       console.log @ tokens
+
     const expected_tokens = Array.from(testCase.tokens)
-      .filter @ token => token !== 'eof'
+      .filter @ token => ! ignore_tokens.has(token)
     assert.deepEqual @ tokens, expected_tokens
 
 

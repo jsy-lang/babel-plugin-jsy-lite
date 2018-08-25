@@ -7,20 +7,16 @@ const { SourceMapGenerator } = require('source-map')
 
 
 export default jsyTranspileParser
-export function jsyTranspileParser(jsy_source, parserOpts, filename) ::
-  if ! filename :: filename = 'unknown'
+export function jsyTranspileParser(jsy_source, filename) ::
+  const sourcemap = filename && new SourceMapGenerator()
 
-  const sourcemap = new SourceMapGenerator()
-
-  const js_vanilla = jsy_transpile @ jsy_source, @{}
+  return jsy_transpile @ jsy_source, @{}
     addSourceMapping(arg) ::
       arg.source = filename
-      sourcemap.addMapping(arg)
+      if sourcemap ::
+        sourcemap.addMapping(arg)
 
     inlineSourceMap() ::
-      return sourcemap.toString()
-
-
-  return parserOpts.parser.parse @
-    js_vanilla, parserOpts
+      if sourcemap ::
+        return sourcemap.toString()
 

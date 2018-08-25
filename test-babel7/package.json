@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.0.0-rc.3",
+    "acorn-node": "^1.5.2",
+    "babel-plugin-jsy-lite": "file:..",
+    "jsy-node": "^1.2.1",
+    "mocha": "^5.2.0",
+    "source-map-support": "^0.5.8"
+  },
+  "scripts": {
+    "test": "npm -s run test-babel7",
+    "pretest-babel7": "test -d ./node_modules || npm -s install",
+    "test-babel7": "mocha --require jsy-node/all ./unittest/",
+    "test:min": "mocha --reporter=min --require jsy-node/all ./unittest/"
+  }
+}

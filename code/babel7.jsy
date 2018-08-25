@@ -1,0 +1,27 @@
+import jsyTranspileParser from './jsyBabelParser.jsy'
+import { asCheckBlocksFunction, blockIndentVisitors } from './babel6.jsy'
+
+export default babel7_plugin_jsy_lite
+export function babel7_plugin_jsy_lite(api, options, dirname) ::
+  return @{}
+    name: 'babel-plugin-jsy-lite'
+
+    manipulateOptions(opts, parserOpts, file) ::
+      parserOpts.plugins.push @
+        'asyncGenerators'
+        'classProperties'
+        'dynamicImport'
+        'exportExtensions'
+        'objectRestSpread'
+
+    parserOverride(source, parserOpts, parse) ::
+      const js_vanilla = jsyTranspileParser @
+        source, parserOpts.sourceFileName
+
+      return parse @ js_vanilla, parserOpts
+
+    pre(state, ... args) ::
+      const check_blocks = asCheckBlocksFunction @ this.opts.check_blocks
+      this.opts.do_check_blocks = check_blocks @ state.opts.filename
+
+    visitor: blockIndentVisitors

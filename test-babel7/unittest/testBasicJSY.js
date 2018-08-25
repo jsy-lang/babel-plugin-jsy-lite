@@ -1,8 +1,9 @@
 require('source-map-support').install()
 
 const {genSyntaxTestCases} = require('./_xform_syntax_variations')
-describe @ 'JSY Smoke Tests', @=> ::
-  genSyntaxTestCases @ it, iterWhileSyntaxSmokeTest()
+describe @ 'Babel 7', @=> ::
+  describe @ 'JSY Smoke Tests', @=> ::
+    genSyntaxTestCases @ it, iterWhileSyntaxSmokeTest()
 
 function * iterWhileSyntaxSmokeTest() ::
   // while (expr) body variations
@@ -10,7 +11,7 @@ function * iterWhileSyntaxSmokeTest() ::
   yield @{} expectValid: true
     title: 'vanilla while statement'
     source: @[] 'while (expr) { blockStatement }'
-    tokens: @[] 'while', '(', 'name', ')', '{', 'name', '}', 'eof'
+    tokens: @[] 'while', '(', 'name', ')', '{', 'name', ';', '}', 'eof'
 
   yield @{} expectValid: true
     title: 'offside while statement'

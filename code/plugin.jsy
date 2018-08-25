@@ -1,83 +1,22 @@
-import jsyTranspileParser from './jsyBabelParser.jsy'
-export {jsyTranspileParser} from './jsyBabelParser.jsy'
+import babel6_plugin_jsy_lite from './babel6.jsy'
+import babel7_plugin_jsy_lite from './babel7.jsy'
 
 export default babel_plugin_jsy_lite
+
 export function babel_plugin_jsy_lite(babel) ::
-  return @{}
-    name: 'babel-plugin-jsy-lite'
+  const majorVersion = parseInt(babel.version)
+  if 6 > majorVersion ::
+    throw new Error @ `babel-plugin-jsy-lite does not support Babel versions before 6.x`
 
-    manipulateOptions(opts, parserOpts, file) ::
-      file.opts.parserOpts = parserOpts
+  if 6 == majorVersion ::
+    return babel6_plugin_jsy_lite.apply(this, arguments)
 
-      parserOpts.parser = (source, parserOpts) =>
-        jsyTranspileParser @ source, parserOpts, file.opts.filenameRelative
+  if 7 > majorVersion ::
+    throw new Error @ `babel-plugin-jsy-lite has not be tested with Babel versions after 7.x`
 
-      parserOpts.plugins.push @
-        'asyncGenerators'
-        'classProperties'
-        'decorators'
-        'functionBind'
-
-    pre(state, ... args) ::
-      const check_blocks = asCheckBlocksFunction @ this.opts.check_blocks
-      this.opts.do_check_blocks = check_blocks @ state.opts.filename
-
-    visitor: @{}
-      Program(path) ::
-        if this.opts.do_check_blocks ::
-          ensureConsistentBlockIndent(path, path.node.body)
-
-      BlockStatement(path) ::
-        if this.opts.do_check_blocks ::
-          ensureConsistentBlockIndent(path, path.node.body)
-
-      SwitchStatement(path) ::
-        if this.opts.do_check_blocks ::
-          ensureConsistentBlockIndent(path, path.node.cases)
-
-      SwitchCase(path) ::
-        if this.opts.do_check_blocks ::
-          ensureConsistentBlockIndent(path, path.node.consequent)
+  return babel7_plugin_jsy_lite.apply(this, arguments)
 
 
-export function ensureConsistentBlockIndent(path, body) ::
-  if null == body :: body = path.node.body
-  body = Array.from(body)
-  if !body || !body.length :: return
-
-  let prev_line, block_column=null
-  for const child of body ::
-    const loc = child.loc
-    if !loc ::
-      // A synthetic child often does not have a location.
-      // Furthermore, a synthetic child indicates that something is mucking
-      // around with the AST. Adapt by resetting block_column and enforcing
-      // only across consecutive entries with valid locations.
-      block_column = null
-      continue
-    else if null === block_column ::
-      // assume the first location is indented properly…
-      block_column = loc.start.column
-
-    if loc.start.line != prev_line && loc.start.column != block_column ::
-      throw path.hub.file.buildCodeFrameError @ child,
-          `Indent mismatch. (block: ${block_column}, statement: ${loc.start.column}). \n`
-        + `    (From 'check_blocks' enforcement option of babel-plugin-jsy-lite)`
-
-    prev_line = loc.end.line
-
-
-const default_check_blocks = /\/node_modules\/|\\node_modules\\/ ;
-function asCheckBlocksFunction(check_blocks) ::
-  if 'function' === typeof check_blocks ::
-    return check_blocks
-
-  const re = null == check_blocks ? default_check_blocks
-    : 'string' === typeof check_blocks ? new RegExp(check_blocks)
-    : check_blocks instanceof RegExp ? check_blocks
-    : null
-
-  if re ::
-    return filename => ! re.test(filename)
-  else return () => false
-
+export * from './jsyBabelParser.jsy'
+export * from './babel6.jsy'
+export * from './babel7.jsy'
