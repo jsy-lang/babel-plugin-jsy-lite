@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-jsy-lite",
   "version": "0.2.0",
-  "description": "Babel offside (indention) Javascript syntax extension",
+  "description": "Offside (indention) JSY syntax for Babel 6.x and 7.x",
   "author": "Shane Holloway <shane.holloway@ieee.org>",
   "license": "BSD-2-Clause",
   "keywords": [
