@@ -33,22 +33,25 @@ function testSourceTransform(testCase) ::
     console.dir @ res.ast, @{} colors: true, depth: null
 
   if testCase.tokens ::
-    const ignore_tokens = new Set @
-      '; eof'
-      .split(/\s+/)
+    testTokens(testCase, res.code)
 
-    const tokens =
-      Array.from @
-        acorn.tokenizer(res.code)
-        token => token.type.label
-      .filter @ token => token && ! ignore_tokens.has(token)
 
-    if ('tokens' === testCase.debug) ::
-      console.log @ tokens
+function testTokens(testCase, code) ::
+  const ignore_tokens = new Set @# ';', 'eof'
 
-    const expected_tokens = Array.from(testCase.tokens)
-      .filter @ token => ! ignore_tokens.has(token)
-    assert.deepEqual @ tokens, expected_tokens
+  const tokens =
+    Array.from @
+      acorn.tokenizer(code)
+      token => token.type.label
+    .filter @ token => token && ! ignore_tokens.has(token)
+
+  if ('tokens' === testCase.debug) ::
+    console.log @ tokens
+
+  const expected_tokens = Array.from(testCase.tokens)
+    .filter @ token => ! ignore_tokens.has(token)
+
+  assert.deepEqual @ tokens, expected_tokens
 
 
 function genSyntaxTestCases(it, iterable_test_cases) ::
