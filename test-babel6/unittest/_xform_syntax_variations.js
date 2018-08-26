@@ -1,5 +1,5 @@
 const assert = require('assert')
-const acorn = require('acorn-node')
+const acorn = require('acorn')
 const jsy_as_babel_ast = require('./_jsy_as_babel_ast')
 
 function testSyntaxError(testCase) ::
@@ -41,7 +41,7 @@ function testTokens(testCase, code) ::
 
   const tokens =
     Array.from @
-      acorn.tokenizer(code)
+      acorn.tokenizer(code, {ecmaVersion: 9})
       token => token.type.label
     .filter @ token => token && ! ignore_tokens.has(token)
 

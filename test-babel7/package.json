@@ -3,7 +3,7 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.0.0-rc.3",
-    "acorn-node": "^1.5.2",
+    "acorn": "^5.7.1",
     "babel-plugin-jsy-lite": "file:..",
     "jsy-node": "^1.2.1",
     "mocha": "^5.2.0",
