@@ -1,14 +1,19 @@
 import jsy_transpile_snapshot from 'jsy-transpile'
 
 let jsy_transpile = jsy_transpile_snapshot
-try { jsy_transpile = require('jsy-transpile') } catch (err) {}
+let SourceMapGenerator
 
-const { SourceMapGenerator } = require('source-map')
+if 'function' === typeof require ::
+  try :: jsy_transpile = require('jsy-transpile')
+  catch err ::
+
+  try :: SourceMapGenerator = require('source-map').SourceMapGenerator
+  catch err ::
 
 
 export default jsyTranspileParser
 export function jsyTranspileParser(jsy_source, filename) ::
-  const sourcemap = filename && new SourceMapGenerator()
+  const sourcemap = filename && SourceMapGenerator && new SourceMapGenerator() || null
 
   return jsy_transpile @ jsy_source, @{}
     addSourceMapping(arg) ::
