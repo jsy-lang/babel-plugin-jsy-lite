@@ -1,5 +1,5 @@
 import jsyTranspileParser from './jsyBabelParser.jsy'
-import { asCheckBlocksFunction, blockIndentVisitors } from './babel6.jsy'
+import { asCheckBlocksFunction, blockIndentVisitors, asBabylonSyntaxError } from './babel6.jsy'
 
 export default babel7_plugin_jsy_lite
 export function babel7_plugin_jsy_lite(api, options, dirname) ::
@@ -15,8 +15,16 @@ export function babel7_plugin_jsy_lite(api, options, dirname) ::
         'objectRestSpread'
 
     parserOverride(source, parserOpts, parse) ::
-      const js_vanilla = jsyTranspileParser @
-        source, parserOpts.sourceFileName
+      let js_vanilla
+      try ::
+        js_vanilla = jsyTranspileParser @
+          source, parserOpts.sourceFileName
+
+      catch err ::
+        const src_loc = err.src_loc
+        if undefined !== src_loc ::
+          asBabylonSyntaxError(err, src_loc, source)
+        throw err
 
       return parse @ js_vanilla, parserOpts
 

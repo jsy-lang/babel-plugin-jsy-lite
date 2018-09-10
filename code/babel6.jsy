@@ -16,8 +16,17 @@ export function babel6_plugin_jsy_lite(babel) ::
       file.opts.parserOpts = parserOpts
 
       parserOpts.parser = (source, parserOpts) => ::
-        const js_vanilla = jsyTranspileParser @
-          source, file.opts.filenameRelative
+        let js_vanilla
+        try ::
+          js_vanilla = jsyTranspileParser @
+            source, file.opts.filenameRelative
+
+        catch err ::
+          const src_loc = err.src_loc
+          if undefined !== src_loc ::
+            asBabylonSyntaxError(err, src_loc, source)
+          throw err
+
         return parserOpts.parser.parse @
           js_vanilla, parserOpts
 
@@ -88,3 +97,8 @@ export function asCheckBlocksFunction(check_blocks) ::
     return filename => ! re.test(filename)
   else return () => false
 
+
+export function asBabylonSyntaxError(err, src_loc, code) ::
+  const {pos, line, column} = src_loc
+  err.pos = pos
+  err.loc = @{} line, column

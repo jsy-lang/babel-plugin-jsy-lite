@@ -7,7 +7,7 @@ function testSyntaxError(testCase) ::
     if (testCase.debug) ::
       console.dir @ testCase.source, @{} colors: true, depth: null
 
-    let res = jsy_as_babel_ast @ testCase.source
+    let res = jsy_as_babel_ast @ testCase.source, true
 
     if 'code' === testCase.debug ::
       console.dir @ res.code.split('\n'), @{} colors: true, depth: null

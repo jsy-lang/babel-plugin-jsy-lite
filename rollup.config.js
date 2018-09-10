@@ -10,6 +10,8 @@ const plugins = [
 export default [
   'index',
   'plugin',
+  'babel6',
+  'babel7',
 ].map(add_jsy)
 
 
