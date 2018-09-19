@@ -7,20 +7,6 @@ describe @ 'Babel 6', @=> ::
 
 function * iterSyntaxErrors() ::
   yield @{} expectSyntaxError: true
-    title: 'syntax error on mixed tabs and spaces (same line)'
-    source: @[]
-      'first @'
-      '  second @'
-      '\t  third @'
-
-  yield @{} expectSyntaxError: true
-    title: 'syntax error on mixed tabs and spaces (cross lines)'
-    source: @[]
-      'first @'
-      '  second @'
-      '\t\t\t\tthird @'
-
-  yield @{} expectSyntaxError: true
     title: 'syntax error on unterminated single-quote string'
     source: @[]
       'line1'
