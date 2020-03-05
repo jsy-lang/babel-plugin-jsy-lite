@@ -1,4 +1,4 @@
-import rpi_resolve from 'rollup-plugin-node-resolve'
+import rpi_resolve from '@rollup/plugin-node-resolve'
 import rpi_jsy from 'rollup-plugin-jsy-lite'
 
 const plugins = [
