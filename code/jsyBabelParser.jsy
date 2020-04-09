@@ -4,7 +4,9 @@ let jsy_transpile = jsy_transpile_snapshot
 let SourceMapGenerator
 
 if 'function' === typeof require ::
-  try :: jsy_transpile = require('jsy-transpile')
+  try ::
+    jsy_transpile = require('jsy-transpile')
+    jsy_transpile = jsy_transpile.default || jsy_transpile
   catch err ::
 
   try :: SourceMapGenerator = require('source-map').SourceMapGenerator
