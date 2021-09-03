@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-jsy-lite",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Offside (indention) JSY syntax for Babel 6.x and 7.x",
   "author": "Shane Holloway <shane.holloway@ieee.org>",
   "license": "BSD-2-Clause",
@@ -31,10 +31,10 @@
     "source-map": "^0.7.3"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^10.0.0",
-    "jsy-transpile": "^0.9.4",
-    "rollup": "^2.33.2",
-    "rollup-plugin-jsy-lite": "^1.7.2"
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "jsy-transpile": "^0.9.5",
+    "rollup": "^2.56.3",
+    "rollup-plugin-jsy-lite": "^1.7.3"
   },
   "scripts": {
     "clean": "rm -rf cjs/ umd/ esm/",
